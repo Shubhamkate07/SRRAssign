@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React from 'react'
+import DonateBook from './Components/DonateBook'
+import 'react-toastify/dist/ReactToastify.css';
+import { BrowserRouter, Routes,Route } from 'react-router-dom';
+import Detailed from './Components/Detailed';
+import SignIn from './Components/SignIn';
+import Register from './Components/Register';
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+   <BrowserRouter>
+     
+      <Routes>
+      <Route path='/' element={ <SignIn/>}></Route>
+      <Route path='/register' element={ <Register/>}></Route>
+      <Route path='/home' element={ <DonateBook/>}></Route>
+        <Route path='/detail' element={<Detailed/>}></Route>
+      </Routes>
+
+   </BrowserRouter>
+
+
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
