@@ -11,7 +11,8 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Fixed width for the form */
+    width: 100%; /* Make width responsive */
+    max-width: 400px; /* Set a max-width for larger screens */
   }
   
   h2 {
@@ -53,3 +54,45 @@
   .btn:hover {
     background-color: #0056b3; /* Darker shade on hover */
   }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .form-container {
+      padding: 15px; /* Reduce padding on smaller screens */
+    }
+  
+    h2 {
+      font-size: 20px; /* Decrease font size */
+    }
+  
+    input {
+      padding: 8px; /* Adjust padding for input fields */
+      font-size: 14px; /* Decrease font size */
+    }
+  
+    .btn {
+      font-size: 14px; /* Decrease button font size */
+      padding: 8px; /* Adjust padding for button */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .form-container {
+      padding: 10px; /* Further reduce padding */
+    }
+  
+    h2 {
+      font-size: 18px; /* Further decrease font size */
+    }
+  
+    input {
+      padding: 6px; /* Adjust padding for input fields */
+      font-size: 12px; /* Further decrease font size */
+    }
+  
+    .btn {
+      font-size: 12px; /* Further decrease button font size */
+      padding: 6px; /* Adjust padding for button */
+    }
+  }
+  
