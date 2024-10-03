@@ -1,71 +1,60 @@
 import React, { useState } from 'react';
-import './SignIn.css';
-import { Link } from 'react-router-dom';
-
-import db, {auth} from './firebase.js';
-
+import './SignIn.scss';
+import { Link, useNavigate } from 'react-router-dom';
+import db, { auth } from './firebase.js';
 import { collection, addDoc } from 'firebase/firestore';
-
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { toast,ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 
-import { useNavigate } from 'react-router-dom';
-
 const SignIn = () => {
-
-    const navigate=useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle sign-in logic (e.g., API call)
-    console.log('Email:', email);
-    console.log('Password:', password);
 
+    try {
+      const userData = await signInWithEmailAndPassword(auth, email, password);
+      const user = userData.user;
 
+      if (user) {
+       
+        localStorage.setItem('currentUser', email);
 
-    
-try{
-
-   const UserDatas= await signInWithEmailAndPassword(auth,email,password);
-    const user=UserDatas.user;
-    if(user){
-        await addDoc(collection(db,'signinData'),{
-            email:email,
-            password,password
+        await addDoc(collection(db, 'signinData'), {
+          email: email,
+          password: password, 
         });
 
-        toast.success('Signed Successfuly!',{
-            position:'top-center'
+        toast.success('Signed In Successfully!', {
+          position: 'top-center',
         });
 
         setEmail('');
         setPassword('');
 
-navigate('/home');
+        navigate('/home');
+      }
+    } catch (err) {
+      console.error(err); 
 
-    }
-}catch(err) {
-    console.error(err); // Log the full error for debugging
-
-    if (err.code === 'auth/invalid-credential') {
+      if (err.code === 'auth/invalid-credential') {
         toast.error('Invalid credentials! Please check your email and password.', {
-            position: 'top-center',
+          position: 'top-center',
         });
-    } else {
+      } else {
         toast.error('Something went wrong!', {
-            position: 'top-center',
+          position: 'top-center',
         });
+      }
     }
-}
-  }
+  };
 
   return (
-    
     <div className='container'>
-        <ToastContainer/>
+      <ToastContainer />
       <div className='form-container'>
         <h2>Sign In</h2>
         <form onSubmit={handleSubmit}>
@@ -88,10 +77,12 @@ navigate('/home');
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-
           </div>
           <button type='submit' className='btn'>Sign In</button>
-          <p style={{paddingTop:'15px'}}>Don't have account? <Link to={'/register'} style={{color:'red', cursor:'pointer', textDecoration:'none'}}>Register</Link></p>
+          <p style={{ paddingTop: '15px' }}>
+            Don't have an account?{' '}
+            <Link to={'/register'} style={{ color: 'red', cursor: 'pointer', textDecoration: 'none' }}>Register</Link>
+          </p>
         </form>
       </div>
     </div>

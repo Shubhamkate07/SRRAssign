@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Register.css';
+import './Register.scss';
 import { Link } from 'react-router-dom';
 import db, { auth } from './firebase';
 import { collection,addDoc } from 'firebase/firestore';
@@ -14,7 +14,7 @@ const Register = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    // Handle registration logic (e.g., API call)
+  
     console.log('Username:', username);
     console.log('Email:', email);
     console.log('Password:', password);
@@ -31,31 +31,26 @@ const Register = () => {
         email:email,
         password:password
       });
-    //   alert("Registeration successfully!");
+ 
     toast.success('Registeration successfully!',{
         position:'top-center'
     })
-      
-      // Clear the form
+
       setUsername('');
       setEmail('');
       setPassword('');
   }
     }catch(err){
 console.log(err);
-if(err.code=='auth/email-already-in-use'){
-    // alert('user Alerdy Exist!! Try other mail.');
+if(err.code==='auth/email-already-in-use'){
+
     toast.error('User Aleredy Exists..use Other email or SIgn In',{
         position:'top-center'
     })
     setEmail('');
     setPassword('');
 }
-
     }
-
-
-
   };
 
   return (
